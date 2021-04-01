@@ -1,0 +1,84 @@
+import csv
+
+class LibraryItem:
+    def __init__(self, name, director, rating=0):
+        self.name = name
+        self.director = director
+        self.rating = rating
+        self.play_count = 0
+
+    def info(self):
+        return f"{self.name} - {self.director} {self.stars()}"
+
+    def stars(self):
+        stars = ""
+        for i in range(int(self.rating)):
+            stars += "*"
+        return stars
+
+
+reader = open("Videos.csv")
+library = {}
+for row in reader.readlines():
+    items = row.strip().split(",")
+    key, name, director, rating = items
+    try:
+        library[key] = LibraryItem(name, director, int(rating))
+    except ValueError:
+        print(f"for video {key}, rating is not an integer")
+
+def list_all():
+    output = ""
+    for key in library:
+        item = library[key]
+        output += f"{key} {item.info()}\n"
+    return output
+
+
+def get_name(key):
+    try:
+        item = library[key]
+        return item.name
+    except KeyError:
+        return None
+
+
+def get_director(key):
+    try:
+        item = library[key]
+        return item.director
+    except KeyError:
+        return None
+
+
+def get_rating(key):
+    try:
+        item = library[key]
+        return item.rating
+    except KeyError:
+        return -1
+    except ValueError:
+        print("enter a number")
+
+def set_rating(key, rating):
+    try:
+        item = library[key]
+        item.rating = rating
+    except KeyError:
+        return
+
+
+def get_play_count(key):
+    try:
+        item = library[key]
+        return item.play_count
+    except KeyError:
+        return -1
+
+
+def increment_play_count(key):
+    try:
+        item = library[key]
+        item.play_count += 1
+    except KeyError:
+        return
