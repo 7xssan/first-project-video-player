@@ -1,0 +1,19 @@
+import video_library as vl
+
+def test_video(capsys):
+    video = vl.LibraryItem("dummy video", "dummy director", 5)
+
+    try:
+        assert video.name == "dummy video"
+        assert video.director == "dummy director"
+        assert video.rating == 5
+        assert video.play_count == 0
+
+        assert video.info() == f"{video.name} - {video.director} {video.stars()}"
+        assert video.stars() == "*****"
+    except AssertionError as err:
+        print(err)
+
+    with capsys.disabled():
+        print()
+        print(f"tested {video.__class__.__name__} successfully")
